@@ -1,5 +1,7 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
+import { isEqual } from 'lodash'
+
 export const combineReducers = reducers => {
   const reducerKeys = Object.keys(reducers)
   const reducerValues = Object.values(reducers)
@@ -25,7 +27,7 @@ export const combineReducers = reducers => {
           action
         )
         hasStateChanged =
-          hasStateChanged || nextStateForCurrentKey !== prevStateForCurrentKey
+          hasStateChanged || !isEqual(nextStateForCurrentKey, prevStateForCurrentKey)
         newState[currentKey] = nextStateForCurrentKey
       }
       return hasStateChanged ? newState : state
